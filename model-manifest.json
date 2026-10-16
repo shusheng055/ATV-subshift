@@ -1,0 +1,6 @@
+{
+  "sentencepiece.model": "872224b85a11edc9d769a94949fd387b67ea85b50708db9f91f32f5b497a9af3",
+  "model/config.json": "3a8660f12559a223969532ff191e5e6f50d4ff24164517edbd6a5090dc5144c6",
+  "model/model.bin": "1a039114d9456b6528fabb65b455b6f156319634a0f984b1f6018f7737d67598",
+  "model/shared_vocabulary.json": "c0b6e24705ec0489d5b810de365959c1013aecd644cfeca161b54ea1df6a7dc0"
+}

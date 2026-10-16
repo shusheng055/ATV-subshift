@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+build*/
+dist*/
+evidence/
+*.zip
+*.dpapi
+*.tmp
+settings.json
+.env
+.env.*
+!.env.example
+credentials*
+provider-credentials*
+models/
