@@ -87,7 +87,7 @@ def run(output: Path):
         checkpoint("ui")
         window = MainWindow()
         from . import __version__
-        report['checks']['release_version'] = __version__ == '1.0.0'
+        report['checks']['release_version'] = __version__ == '1.1.1-local'
         report['checks']['default_local_light'] = (window.settings.mode == 'Local'
             and window.mode.currentText() == 'Local' and window.settings.theme == 'light')
         presets = window.settings.term_presets
@@ -152,6 +152,8 @@ def run(output: Path):
         QCoreApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
         app.processEvents()
     except Exception as exc:
+        import traceback
+        report['traceback'] = traceback.format_exc()
         report["error_type"] = type(exc).__name__
         report["error"] = str(exc)[:300]
     report["elapsed_s"] = round(time.monotonic() - started, 2)

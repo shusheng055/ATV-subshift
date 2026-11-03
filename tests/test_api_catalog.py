@@ -154,6 +154,11 @@ class CatalogTests(unittest.TestCase):
                     settings = Settings(mode='API', api_provider=model.provider, api_model=model.id,
                         api_protocol=model.protocol, api_url=f'http://127.0.0.1:{server.server_port}/v1',
                         hotwords='track => 赛道', hotword_weight=3)
+                    if not model.available():
+                        # The calendar advances after release; expired models must be rejected.
+                        with self.assertRaises(TranslationError):
+                            ApiTranslator(settings, 'mock-secret')
+                        continue
                     api = ApiTranslator(settings, 'mock-secret')
                     try:
                         self.assertEqual(api.translate('On the track'), '赛道')

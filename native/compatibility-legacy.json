@@ -1,0 +1,152 @@
+{
+  "package_name": "AppleInc.AppleTVWin",
+  "package_version": "1.1540.23558.0",
+  "package_root": "C:\\Program Files\\WindowsApps\\AppleInc.AppleTVWin_1.1540.23558.0_x64__nzyj5cx40ttqa",
+  "modules": [
+    {
+      "sha256": "7645ce4fe27993b41bda9e05efdac87f5312ab1e6ba4af5469b5a8ebaa1a0f87",
+      "name": "AppleTV.exe"
+    },
+    {
+      "sha256": "06d40363efcad99ca283ae98e8b28b94cc668b2b8f58e707b165db3cde5d5f55",
+      "name": "AppleTV.Controls.dll"
+    },
+    {
+      "sha256": "4da41b3c9c2ceaf2c911bd44a2de0fd02be32a66fc4a23f21bb0cb58d1d5deb6",
+      "name": "AVFoundationCF.dll"
+    },
+    {
+      "name": "AMPLibraryAgent.exe",
+      "sha256": "3d66d2c57f864348f59a7c4cacd90525270b92d529d78f199d450d432787113e"
+    },
+    {
+      "name": "CoreMedia.dll",
+      "sha256": "505ad3a5a804c1a00a2f58a8237292f000efacb0ee57850e5b6b3716adf155ce"
+    },
+    {
+      "name": "CoreText.dll",
+      "sha256": "cfacec6cff0cd0504ec058117160bf63c57e40a53e5cd19cf8ba49bd9da44ce1"
+    },
+    {
+      "name": "CoreFoundation.dll",
+      "sha256": "a31ee0f1bd1ffd64442d0e001aa506bb8198e18ea87c9a484eff8f749bc4d1de"
+    },
+    {
+      "name": "QuartzCore.dll",
+      "sha256": "879ceef0b6c579bb2725c8fb19dd2de1551ecf107b63a4545bc4b35929584da5"
+    },
+    {
+      "name": "CoreGraphics.dll",
+      "sha256": "cf7014b21ea46be7327a4d0994b8b0eb4503671d16ff55f46b09e0a157a3acc0"
+    }
+  ],
+  "hooks": [
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9780768,
+      "bytes": "488bc45553574155488da868feffff48"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9729264,
+      "bytes": "488bc4555357415441564157488da828"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9795760,
+      "bytes": "405553565741564157488dac2478ffff"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9781776,
+      "bytes": "488bc448895810555741564881ecd000"
+    },
+    {
+      "module": "CoreText.dll",
+      "rva": 181024,
+      "bytes": "4881ec38010000488b05e2ac0d004833"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9806672,
+      "bytes": "48895c241048896c2418574156415748"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9785392,
+      "bytes": "48896c2420565741574883ec504533ff"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9802416,
+      "bytes": "488bc448895818488970205741544157"
+    },
+    {
+      "module": "QuartzCore.dll",
+      "rva": 1375088,
+      "bytes": "48899188000000c3cccccccccccccccc"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 11654224,
+      "bytes": "48895c2408574881ec80000000488bf9"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 11654528,
+      "bytes": "488bc448895808488968104889702057"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9715536,
+      "bytes": "48895c241848896c2420565741544155"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 2661808,
+      "bytes": "405556574157488d6c24c14881eca800"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 2660928,
+      "bytes": "40555657488d6c24b94881ecb0000000"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9165856,
+      "bytes": "40534881ec80000000833dd09ab30000"
+    },
+    {
+      "module": "CoreText.dll",
+      "rva": 176352,
+      "bytes": "40564883ec20488bf14885c9750833c0"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 11620112,
+      "bytes": "4881ec98000000488b05e20186004833"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9781617,
+      "bytes": "ff15d9cc5e0033d2488bcbff155ecc"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9781628,
+      "bytes": "ff155ecc5e0048ffc74883c620493b"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9782288,
+      "bytes": "ff1552b35e004c8d9c24d000000049"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 9781577,
+      "bytes": "ff1501cd5e00eb31488b05e8bd5e00"
+    }
+  ],
+  "status": "experimental-native-translation-verified",
+  "scope": "Observed CEA-608 English CC (Singapore FP1 / Race) and WebVTT English (Matchbox The Movie); tested local package only; timing/style/long-term reliability remain partial"
+}

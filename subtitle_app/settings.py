@@ -17,6 +17,8 @@ DATA = Path(os.environ.get("LOCALAPPDATA", str(Path.home()))) / "ATVSubshift"
 @dataclass
 class Settings:
     mode: str = "Local"
+    local_engine: str = "builtin"
+    local_runtime_path: str = ""
     source: str = "en"
     target: str = "zh-Hans"
     api_url: str = "https://api.openai.com/v1"
@@ -51,6 +53,10 @@ class Settings:
             value = cls(**{f.name: raw[f.name] for f in fields(cls) if f.name in raw})
             if value.mode not in ("Local", "API") or value.theme not in ("dark", "light"):
                 return cls()
+            if value.local_engine not in ('builtin', 'enhanced'):
+                value.local_engine = 'builtin'
+            if not isinstance(value.local_runtime_path, str):
+                value.local_runtime_path = ''
             value.font_size = max(18, min(52, int(value.font_size)))
             value.bottom = max(4, min(32, int(value.bottom)))
             value.hotword_weight = max(0.0, min(5.0, float(value.hotword_weight)))

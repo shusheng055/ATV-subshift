@@ -2,6 +2,7 @@
 from pathlib import Path
 import importlib.util
 import os
+import ssl
 from PyInstaller.utils.hooks import collect_all, collect_submodules
 
 root = Path(SPECPATH)
@@ -20,6 +21,11 @@ datas = [(str(root / 'models'), 'models'),
          (str(root / 'RELEASE-NOTES.zh-CN.md'), '.'),
          (str(root / 'docs'), 'docs')]
 binaries = []
+# The bundled Python runtime loads its certificate policy beside ssl.py.
+# Preserve that policy in the frozen app; never disable TLS verification.
+certificate_policy = Path(ssl.__file__).with_name('codex-rejected-cas.pem')
+if certificate_policy.is_file():
+    datas.append((str(certificate_policy), '.'))
 hiddenimports = []
 for package in ('uiautomation', 'winrt', 'ctranslate2', 'frida'):
     data, binary, hidden = collect_all(package)

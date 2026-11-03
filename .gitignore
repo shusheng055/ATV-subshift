@@ -14,3 +14,4 @@ settings.json
 credentials*
 provider-credentials*
 models/
+assets/local-runtime.json

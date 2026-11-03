@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
         self._initializing = True
         self.settings = Settings.load()
         self.credentials = CredentialStore(self.settings.api_url)
-        self.setWindowTitle("ATV subshift")
+        self.setWindowTitle("ATV subshift · 本地增强")
         self.setWindowIcon(app_icon())
         self.resize(900, 910)
         self.setMinimumSize(760, 650)
@@ -145,7 +145,12 @@ class MainWindow(QMainWindow):
         languages.addWidget(label("To", "muted"))
         languages.addWidget(self.target, 1)
         translation.addLayout(languages)
-        self.local_note = label("本地模型 · English → 简体中文 · CPU int8 · 无需联网", "small")
+        self.local_engine = QComboBox()
+        self.local_engine.addItem('本地增强 · 赛车术语与上下文', 'enhanced')
+        self.local_engine.addItem('原版轻量 · 较快，准确度有限', 'builtin')
+        self.local_engine.setCurrentIndex(max(0, self.local_engine.findData(self.settings.local_engine)))
+        translation.addWidget(self.local_engine)
+        self.local_note = label("", "small", True)
         translation.addWidget(self.local_note)
         self.api_panel = ApiPanel(self.settings, self.credentials)
         self.api_url, self.api_key = self.api_panel.url, self.api_panel.key
@@ -218,8 +223,9 @@ class MainWindow(QMainWindow):
         layout.addLayout(footer)
         layout.addStretch()
 
-        self.config_controls = [self.mode, self.source, self.target, self.api_panel, self.preset_manager]
+        self.config_controls = [self.mode, self.local_engine, self.source, self.target, self.api_panel, self.preset_manager]
         self.mode.currentTextChanged.connect(self.mode_changed)
+        self.local_engine.currentIndexChanged.connect(self.mode_changed)
         for widget in (self.source, self.target):
             widget.currentIndexChanged.connect(self.defer_save)
         self.subtitle_mode.currentIndexChanged.connect(self.display_changed)
@@ -262,6 +268,10 @@ class MainWindow(QMainWindow):
         local = self.mode.currentText() == "Local"
         self.api_panel.setVisible(not local)
         self.local_note.setVisible(local)
+        self.local_engine.setVisible(local)
+        self.local_note.setText('HY-MT1.5 7B · 整句翻译，参考启用的赛车词表和前文 · 在本机运行，无 API 费用'
+                               if self.local_engine.currentData() == 'enhanced' else
+                               '原版轻量模型 · English → 简体中文 · 无需联网')
         self.source.setEnabled(not local and not self.pipeline.running)
         self.target.setEnabled(not local and not self.pipeline.running)
         if local:
@@ -273,6 +283,7 @@ class MainWindow(QMainWindow):
         presets = self.preset_manager.values()
         hotwords, keep_words = active_terms(presets)
         return Settings(mode=self.mode.currentText(), source=self.source.currentData(), target=self.target.currentData(),
+                        local_engine=self.local_engine.currentData(), local_runtime_path=self.settings.local_runtime_path,
                         **self.api_panel.values(),
                         subtitle_mode=self.subtitle_mode.currentData(), font_size=self.size.value(),
                         bottom=self.position.value(), theme=self.settings.theme,

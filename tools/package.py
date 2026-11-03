@@ -2,12 +2,15 @@ from pathlib import Path
 import argparse
 import hashlib
 import json
+import sys
 import zipfile
 
 root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root))
+from subtitle_app import __version__
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', type=Path, default=root / 'dist' / 'ATV subshift')
-parser.add_argument('--output', type=Path, default=root / 'dist' / 'ATV-subshift-1.0.0-win64.zip')
+parser.add_argument('--output', type=Path, default=root / 'dist' / f'ATV-subshift-{__version__}-win64.zip')
 args = parser.parse_args()
 folder, archive = args.folder.resolve(), args.output.resolve()
 archive.parent.mkdir(parents=True, exist_ok=True)
@@ -21,6 +24,7 @@ with zipfile.ZipFile(archive) as z:
         raise RuntimeError('Archive verification failed: ' + bad)
 manifest = {'file': archive.name, 'bytes': archive.stat().st_size,
             'sha256': hashlib.file_digest(archive.open('rb'), 'sha256').hexdigest(),
-            'model_included': True, 'first_run_download': False}
+            'builtin_model_included': True, 'builtin_first_run_download': False,
+            'enhanced_model_included': False, 'enhanced_requires_setup': True}
 archive.with_suffix('.json').write_text(json.dumps(manifest, indent=2), 'utf-8')
 print(json.dumps(manifest, indent=2))

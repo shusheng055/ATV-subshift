@@ -2,6 +2,10 @@ import sys
 
 
 def main():
+    if len(sys.argv) == 3 and sys.argv[1] == '--local-f1-check':
+        from pathlib import Path
+        from subtitle_app.local_check import run
+        return run(Path(sys.argv[2]).resolve())
     if sys.argv[1:] == ['--pacing-check-worker']:
         # Bounded idle target for the explicitly invoked packaged-runtime test.
         # It never opens a window, loads settings, or attaches to Apple TV.
@@ -16,8 +20,9 @@ def main():
         parser.add_argument('output', type=Path)
         parser.add_argument('--seconds', type=int, default=90)
         parser.add_argument('--min-cues', type=int, default=20)
+        parser.add_argument('--subtitle-mode', choices=('Translated', 'Bilingual'))
         args = parser.parse_args(sys.argv[2:])
-        return run(args.output.resolve(), max(15, min(900, args.seconds)), max(1, args.min_cues))
+        return run(args.output.resolve(), max(15, min(900, args.seconds)), max(1, args.min_cues), args.subtitle_mode)
     if len(sys.argv) == 3 and sys.argv[1] == "--self-check":
         from pathlib import Path
         import json

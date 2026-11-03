@@ -45,7 +45,8 @@ class TermTranslator:
     def __init__(self, engine, keep_words: str):
         self.engine = engine
         words = sorted(set(w.strip() for w in keep_words.splitlines() if w.strip()), key=len, reverse=True)
-        # Split before inference, so protected text is never sent to either engine.
+        # Legacy engines split around protected words. Passage engines use markers;
+        # the enhanced local engine can additionally receive their semantic hints.
         patterns = []
         for word in words:
             left = r"(?<!\w)" if word[0].isascii() and word[0].isalnum() else ""
@@ -80,7 +81,7 @@ class TermTranslator:
         return "".join(result).strip()
 
     def translate_segment(self, text, context=(), allow_wait=False, cancelled=None, deadline=None):
-        """API: one intact passage with validated placeholders, including protected history."""
+        """One intact passage with validated placeholders, including protected history."""
         if not getattr(self.engine, 'supports_placeholders', False):
             # The bundled small model was not trained to preserve placeholder tokens.
             return self.translate(text, cancelled=cancelled, deadline=deadline)
@@ -111,17 +112,18 @@ class TermTranslator:
                 context_ids[identity] = f'⟦ATV_CONTEXT_{len(context_ids)}⟧'
             return context_ids[identity]
         masked_context = tuple(pattern.sub(mask_context, part) for part in context)
+        hints = {'protected_terms': replacements} if getattr(self.engine, 'supports_term_hints', False) else {}
         result = self.engine.translate(masked, context=masked_context, allow_wait=allow_wait, segment=True,
-                                       cancelled=cancelled, deadline=deadline)
+                                       cancelled=cancelled, deadline=deadline, **hints)
         check()
         found = marker.findall(result)
         if sorted(found) != sorted(replacements) or re.search(r'⟦ATV_CONTEXT_\d+⟧', result):
             from .translation import TranslationError
-            raise TranslationError("API 未完整保留词汇标记，本句保留原文。")
+            raise TranslationError("翻译模型未完整保留词汇标记，本句保留原文。")
         remaining = marker.sub('', masked)
         if (result.strip() == masked.strip() and any(c.isalpha() for c in remaining)
                 and self.engine.settings.source != self.engine.settings.target):
             from .translation import TranslationError
-            raise TranslationError("API 原样返回了待译文本，本句保留原文。")
+            raise TranslationError("翻译模型原样返回了待译文本，本句保留原文。")
         # One substitution pass avoids accidentally replacing tokens inside restored text.
         return marker.sub(lambda match: replacements[match[0]], result)

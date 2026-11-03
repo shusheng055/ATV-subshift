@@ -1,27 +1,27 @@
 {
   "package_name": "AppleInc.AppleTVWin",
-  "package_version": "1.1540.23558.0",
-  "package_root": "C:\\Program Files\\WindowsApps\\AppleInc.AppleTVWin_1.1540.23558.0_x64__nzyj5cx40ttqa",
+  "package_version": "1.1792.39684.0",
+  "package_root": "C:\\Program Files\\WindowsApps\\AppleInc.AppleTVWin_1.1792.39684.0_x64__nzyj5cx40ttqa",
   "modules": [
     {
-      "sha256": "7645ce4fe27993b41bda9e05efdac87f5312ab1e6ba4af5469b5a8ebaa1a0f87",
+      "sha256": "d6e52271432ee1eccbc06d3c345ea48425bc1974231e0b458e958049af0e38a2",
       "name": "AppleTV.exe"
     },
     {
-      "sha256": "06d40363efcad99ca283ae98e8b28b94cc668b2b8f58e707b165db3cde5d5f55",
+      "sha256": "46f9d990c1ee37ae1145d2c08e6e3e8e7ee95d63b58146c7e42b56d21eef7710",
       "name": "AppleTV.Controls.dll"
     },
     {
-      "sha256": "4da41b3c9c2ceaf2c911bd44a2de0fd02be32a66fc4a23f21bb0cb58d1d5deb6",
+      "sha256": "808509507b6d72d594d9b43e3fd35988116a5aeb3c89423104673b265fb57daa",
       "name": "AVFoundationCF.dll"
     },
     {
       "name": "AMPLibraryAgent.exe",
-      "sha256": "3d66d2c57f864348f59a7c4cacd90525270b92d529d78f199d450d432787113e"
+      "sha256": "b8c2b2d0f3c5d4e8aecb1a0fff04f6ec1e9b41aea791242ff2ade9999d844ae3"
     },
     {
       "name": "CoreMedia.dll",
-      "sha256": "505ad3a5a804c1a00a2f58a8237292f000efacb0ee57850e5b6b3716adf155ce"
+      "sha256": "40736bc27ae049408e3a54ec40d7279df002e69282dd729c09c725be34e0ed4a"
     },
     {
       "name": "CoreText.dll",
@@ -33,7 +33,7 @@
     },
     {
       "name": "QuartzCore.dll",
-      "sha256": "879ceef0b6c579bb2725c8fb19dd2de1551ecf107b63a4545bc4b35929584da5"
+      "sha256": "c8345175ce60a4ad0b6e5657aa6198705983719b1b4c86a3eb02dbe7af64e143"
     },
     {
       "name": "CoreGraphics.dll",
@@ -43,22 +43,22 @@
   "hooks": [
     {
       "module": "CoreMedia.dll",
-      "rva": 9780768,
-      "bytes": "488bc45553574155488da868feffff48"
+      "rva": 11033360,
+      "bytes": "488bc45553574156488da888feffff48"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9729264,
+      "rva": 10981824,
       "bytes": "488bc4555357415441564157488da828"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9795760,
+      "rva": 11048528,
       "bytes": "405553565741564157488dac2478ffff"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9781776,
+      "rva": 11034000,
       "bytes": "488bc448895810555741564881ecd000"
     },
     {
@@ -68,17 +68,17 @@
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9806672,
+      "rva": 11059440,
       "bytes": "48895c241048896c2418574156415748"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9785392,
+      "rva": 11037616,
       "bytes": "48896c2420565741574883ec504533ff"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9802416,
+      "rva": 11055184,
       "bytes": "488bc448895818488970205741544157"
     },
     {
@@ -88,33 +88,33 @@
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 11654224,
+      "rva": 13002016,
       "bytes": "48895c2408574881ec80000000488bf9"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 11654528,
+      "rva": 13002320,
       "bytes": "488bc448895808488968104889702057"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9715536,
-      "bytes": "48895c241848896c2420565741544155"
+      "rva": 10966976,
+      "bytes": "48895c241848896c2420574154415541"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 2661808,
+      "rva": 3640400,
       "bytes": "405556574157488d6c24c14881eca800"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 2660928,
+      "rva": 3639520,
       "bytes": "40555657488d6c24b94881ecb0000000"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9165856,
-      "bytes": "40534881ec80000000833dd09ab30000"
+      "rva": 10349808,
+      "bytes": "40534881ec80000000833dd027c20000"
     },
     {
       "module": "CoreText.dll",
@@ -123,30 +123,69 @@
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 11620112,
-      "bytes": "4881ec98000000488b05e20186004833"
+      "rva": 12967200,
+      "bytes": "4881ec98000000488b05d2d391004833"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9781617,
-      "bytes": "ff15d9cc5e0033d2488bcbff155ecc"
+      "rva": 11033831,
+      "bytes": "ff15fb42630033d2488bceff151843"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9781628,
-      "bytes": "ff155ecc5e0048ffc74883c620493b"
+      "rva": 11033842,
+      "bytes": "ff151843630048ffc74883c320493b"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9782288,
-      "bytes": "ff1552b35e004c8d9c24d000000049"
+      "rva": 11034512,
+      "bytes": "ff15922663004c8d9c24d000000049"
     },
     {
       "module": "CoreMedia.dll",
-      "rva": 9781577,
-      "bytes": "ff1501cd5e00eb31488b05e8bd5e00"
+      "rva": 11033791,
+      "bytes": "ff1523436300eb31488b0502326300"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 10982954,
+      "bytes": "ff1560fc6300"
+    },
+    {
+      "module": "CoreMedia.dll",
+      "rva": 10986400,
+      "bytes": "ff15eaee6300"
     }
   ],
   "status": "experimental-native-translation-verified",
-  "scope": "Observed CEA-608 English CC (Singapore FP1 / Race) and WebVTT English (Matchbox The Movie); tested local package only; timing/style/long-term reliability remain partial"
+  "scope": "Exact build 1.1792.39684.0; CEA-608 live Mexico Practice 1 local enhanced translation and native drawing verified. WebVTT statically ported; live validation pending.",
+  "coremedia_rvas": {
+    "0x289a40": 3639520,
+    "0x289db0": 3640400,
+    "0x8bdc20": 10349808,
+    "0x8bddc0": 10350224,
+    "0x8be730": 10352640,
+    "0x943f50": 10966976,
+    "0x9474f0": 10981824,
+    "0x947960": 10982960,
+    "0x9486d6": 10986406,
+    "0x953e20": 11033360,
+    "0x954149": 11033791,
+    "0x95414f": 11033797,
+    "0x954171": 11033831,
+    "0x954177": 11033837,
+    "0x95417c": 11033842,
+    "0x954182": 11033848,
+    "0x954210": 11034000,
+    "0x954410": 11034512,
+    "0x954416": 11034518,
+    "0x955030": 11037616,
+    "0x9578b0": 11048528,
+    "0x9592b0": 11055184,
+    "0x959600": 11056032,
+    "0x95a350": 11059440,
+    "0xb14f10": 12967200,
+    "0xb1d450": 13002016,
+    "0xb1d580": 13002320
+  }
 }

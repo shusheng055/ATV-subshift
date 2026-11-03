@@ -15,6 +15,7 @@ from . import __version__
 from .windows import image_name
 from .resources import NATIVE_SESSIONS
 from .frida_cleanup import release_destroyed_script
+from .native_compat import load_profiles, select_profile, relocate_bridge
 
 
 @dataclass(frozen=True)
@@ -317,7 +318,8 @@ class NativeSource:
             import frida
             self.cancellable = frida.Cancellable()
             device = self._operation(frida.get_local_device)
-            profile = json.loads((ROOT / 'native' / 'compatibility.json').read_text('utf-8'))
+            profiles = load_profiles(ROOT / 'native')
+            package_names = {p['package_name'] for p in profiles}
             bridge = (ROOT / 'native' / ('native-renderer.js' if self.render else 'read-captions.js')).read_text('utf-8')
             if self.render:
                 bridge = '\n'.join((ROOT / 'native' / name).read_text('utf-8')
@@ -335,7 +337,7 @@ class NativeSource:
                     if process.name.lower() != 'amplibraryagent.exe':
                         continue
                     image = Path(image_name(process.pid))
-                    if not image.parent.name.startswith(profile['package_name'] + '_'):
+                    if not any(image.parent.name.startswith(name + '_') for name in package_names):
                         continue
                     alive.add(process.pid)
                     if process.pid in self.sessions or process.pid in self.failed or time.monotonic() < retry.get(process.pid, 0):
@@ -346,11 +348,11 @@ class NativeSource:
                     try:
                         package = image.parent
                         if package not in verified:
-                            verified[package] = verify_package(package, profile)
+                            verified[package] = verify_package(package, select_profile(package, profiles))
                         if self.stop.is_set() or self.closed.is_set():
                             break
                         session = self._operation(device.attach, process.pid)
-                        script = self._operation(session.create_script, 'const PROFILE=' + json.dumps({**verified[package], 'layout_proof': bool(self.layout_proof)}) + ';\n' + bridge)
+                        script = self._operation(session.create_script, 'const PROFILE=' + json.dumps({**verified[package], 'layout_proof': bool(self.layout_proof)}) + ';\n' + relocate_bridge(bridge, verified[package]))
                         self._bind_script(process.pid, script)
                         self._operation(script.load)
                         self.sessions[process.pid] = (session, script)

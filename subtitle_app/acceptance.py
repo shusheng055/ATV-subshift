@@ -43,7 +43,7 @@ def finalize_report(report, min_cues):
     return report
 
 
-def run(output: Path, seconds=90, min_cues=20):
+def run(output: Path, seconds=90, min_cues=20, subtitle_mode=None):
     from PySide6.QtCore import QTimer
     from PySide6.QtWidgets import QApplication
     from .pipeline import Pipeline
@@ -69,10 +69,22 @@ def run(output: Path, seconds=90, min_cues=20):
     app.setQuitOnLastWindowClosed(False)
     pipeline = Pipeline()
     settings = replace(Settings.load(), mode='Local', source='en', target='zh-Hans')
+    if subtitle_mode is not None:
+        if subtitle_mode not in ('Translated', 'Bilingual'):
+            raise ValueError('Unsupported acceptance subtitle mode')
+        settings = replace(settings, subtitle_mode=subtitle_mode)
     report = {'scope': 'live Apple TV -> local model -> original native renderer; OCR/UIA disabled',
               'seconds': seconds, 'minimum_ended_cues': min_cues, 'translated_results': 0,
               'native_routes': [], 'chinese_output': False, 'native_draws': 0,
-              'overlay_windows': 0, 'errors': 0, 'cue_coverage': [], 'subtitle_mode': settings.subtitle_mode}
+              'overlay_windows': 0, 'errors': 0, 'cue_coverage': [], 'subtitle_mode': settings.subtitle_mode,
+              'local_engine': settings.local_engine, 'translation_failures': []}
+
+    def translation_result(_session, sequence, _source, _target, elapsed, error):
+        if error:
+            report['translation_failures'].append({'sequence': sequence, 'elapsed_ms': elapsed, 'error': error})
+            del report['translation_failures'][:-80]
+
+    pipeline.events.translated.connect(translation_result)
 
     def translated(_source, target, _bounds):
         report['translated_results'] += 1
@@ -83,10 +95,14 @@ def run(output: Path, seconds=90, min_cues=20):
     pipeline.caption.connect(translated)
     began = time.monotonic()
     closing = False
+    source = None
 
     def tick():
-        nonlocal closing
-        source = pipeline.capture.direct_source if pipeline.capture else None
+        nonlocal closing, source
+        # The worker clears pipeline.capture after closing it. Keep the observed
+        # source so its final restoration acknowledgements reach this report.
+        if pipeline.capture and pipeline.capture.direct_source:
+            source = pipeline.capture.direct_source
         if source:
             report['native_draws'] = source.counts['native_draws']
             report['errors'] = source.counts['errors']

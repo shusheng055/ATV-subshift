@@ -10,6 +10,7 @@ from .capture import CaptureLoop, Observation, clean_text
 from .settings import Settings
 from .translation import ApiTranslator, TranslationError
 from .local_worker import LocalWorkerTranslator as LocalTranslator
+from .local_f1 import LocalF1Translator
 from .terminology import TermTranslator
 from .segments import SpeechBuffer, Segment, flatten
 from .resources import TranslationCache, LatestObservation, ResourceMonitor, process_memory
@@ -98,7 +99,8 @@ class Pipeline(QObject):
         self.last_seen = self.started
         self.state.emit(True)
         self.preview.emit("", "")
-        self.status.emit("正在载入内置离线模型…" if settings.mode == "Local" else "正在准备 API 翻译…")
+        self.status.emit(("正在载入本地增强模型，首次加载可能需要数秒…" if settings.local_engine == 'enhanced'
+                          else "正在载入内置离线模型…") if settings.mode == "Local" else "正在准备 API 翻译…")
         self.threads = [threading.Thread(target=self._worker, args=(session, self.stop_event, key, test_hwnd),
                                          name='ATV-translate', daemon=True)]
         self.threads[0].start()
@@ -106,7 +108,11 @@ class Pipeline(QObject):
     def _worker(self, session, stop, key, test_hwnd):
         engine = capture = capture_thread = None
         try:
-            engine = LocalTranslator(self.settings, cancelled=stop.is_set) if self.settings.mode == "Local" else ApiTranslator(self.settings, key)
+            if self.settings.mode == 'Local':
+                local_class = LocalF1Translator if self.settings.local_engine == 'enhanced' else LocalTranslator
+                engine = local_class(self.settings, cancelled=stop.is_set)
+            else:
+                engine = ApiTranslator(self.settings, key)
             self.engine = engine
             translator = TermTranslator(engine, self.settings.keep_words)
             if stop.is_set():
@@ -131,7 +137,7 @@ class Pipeline(QObject):
                     plan = Segment(flatten('\n'.join(native_token['sources']) if native_token else text),
                                    (), requested, requested, requested, seq)
                 try:
-                    limit = 3.0 if self.settings.mode == "Local" else 8.0
+                    limit = 3.0 if self.settings.mode == "Local" and self.settings.local_engine == 'builtin' else 8.0
                     result = self.group_cache.get(plan.cache_key)
                     cached = result is not None
                     if result is None:
@@ -413,8 +419,12 @@ class Pipeline(QObject):
             pressure = mb > threshold
             if pressure:
                 self.group_cache.clear()  # Never clears the displayed native frame.
-            self.resources.emit(f'内存 {mb:.0f} MB · 后台 {workers}/3 · 待译 {self.jobs.qsize()}/1'
-                                f' · 缓存 {cache["entries"]}/128' + (' · 内存偏高，已释放历史缓存' if pressure else ''))
+            external_model = (getattr(getattr(self, 'settings', None), 'mode', '') == 'Local'
+                              and getattr(self.settings, 'local_engine', '') == 'enhanced')
+            self.resources.emit(f'应用内存 {mb:.0f} MB · 后台 {workers}/3 · 待译 {self.jobs.qsize()}/1'
+                                f' · 缓存 {cache["entries"]}/128'
+                                + (' · 增强模型占用另计' if external_model else '')
+                                + (' · 内存偏高，已释放历史缓存' if pressure else ''))
 
     def set_subtitle_mode(self, mode):
         self.subtitle_mode = mode
