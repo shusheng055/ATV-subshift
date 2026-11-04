@@ -9,4 +9,4 @@
 
 验证：110 项源码测试、31 项打包运行检查通过，增强模型已完成实际推理检查。新版 CEA-608 字幕做过短时实播，仍可能偶发漏译；WebVTT 尚未完成实播验证，不保证其他 Apple TV 版本或所有节目场景。
 
-源码和轻量模型见 **ATV-subshift-1.1.1-local-source.zip**；校验值见 **SHA256SUMS.txt**。原创部分继续采用 CC0，第三方模型与依赖遵循各自许可。
+源码和轻量模型见 **ATV-subshift-1.1.1-local-source.zip**；校验值见 **SHA256SUMS.txt**。该历史发布包的原创部分按发布时的 CC0 许可提供。当前仓库原创部分已改用 [MIT License](LICENSE)，详见 [许可变更说明](RIGHTS-WAIVER.zh-CN.md)；第三方模型与依赖遵循各自许可。
