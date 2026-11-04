@@ -76,6 +76,6 @@ py -3.12 -m venv .venv
 
 **本项目原创代码、界面、集成脚本、测试、文档和打包流程均由 AI 生成并借助工具执行；发布者提供需求、反馈和发布授权。** 第三方库、预训练模型、开发工具及 Apple 软件仍属于各自原作者。
 
-**发布者对本人可能拥有、并依法有权处分的原创部分放弃一切可依法放弃的权利。** 原创部分采用 [CC0 1.0](LICENSE)，另见 [补充权利放弃声明](RIGHTS-WAIVER.zh-CN.md) 和 [AI 生成声明](AI-GENERATED.md)。第三方许可保持不变，详见 [第三方说明](THIRD-PARTY-NOTICES.md)、[模型署名](MODEL-ATTRIBUTION.md)、[许可证汇总](THIRD-PARTY-LICENSES.txt) 与 `licenses/`。
+**本项目原创部分采用 [MIT License](LICENSE)。** 许可仅涵盖发布者可能拥有、并依法有权许可的权利；使用时请遵守 MIT 许可证中的版权和许可声明保留要求。另见 [许可变更说明](RIGHTS-WAIVER.zh-CN.md) 和 [AI 生成声明](AI-GENERATED.md)。第三方许可保持不变，详见 [第三方说明](THIRD-PARTY-NOTICES.md)、[模型署名](MODEL-ATTRIBUTION.md)、[许可证汇总](THIRD-PARTY-LICENSES.txt) 与 `licenses/`。
 
 软件按现状提供；本项目与 Apple、REA、Frida 及模型服务商无隶属或背书关系。
